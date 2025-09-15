@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Software Engineer",
+    "company": "Tech Corp",
+    "location": "New York, NY",
+    "category": "Engineering",
+    "experienceLevel": "Mid-Level",
+    "description": "We are looking for a skilled software engineer to join our team."
+  },
+  {
+    "id": 2,
+    "title": "Product Manager",
+    "company": "Innovate Inc.",
+    "location": "San Francisco, CA",
+    "category": "Product",
+    "experienceLevel": "Senior",
+    "description": "Seeking an experienced product manager to lead our new product line."
+  },
+  {
+    "id": 3,
+    "title": "UX/UI Designer",
+    "company": "Creative Solutions",
+    "location": "Austin, TX",
+    "category": "Design",
+    "experienceLevel": "Entry-Level",
+    "description": "We are looking for a talented UX/UI designer to create amazing user experiences."
+  },
+  {
+    "id": 4,
+    "title": "Data Scientist",
+    "company": "Data Insights",
+    "location": "Chicago, IL",
+    "category": "Data Science",
+    "experienceLevel": "Mid-Level",
+    "description": "Join our data science team and help us make data-driven decisions."
+  }
+]
