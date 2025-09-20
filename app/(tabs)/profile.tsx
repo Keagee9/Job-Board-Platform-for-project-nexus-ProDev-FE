@@ -2,13 +2,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 const ProfileScreen = () => {
+  const router = useRouter();
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Details</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push('../account-settings')}>
           <Ionicons name="settings-outline" size={24} color="white" />
         </TouchableOpacity>
       </View>
@@ -43,8 +46,8 @@ const ProfileScreen = () => {
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Experience</Text>
-          <TouchableOpacity>
-            <Ionicons name="create-outline" size={20} color="#8E8E93" />
+          <TouchableOpacity onPress={() => router.push('../add-experience')}>
+            <Ionicons name="add" size={28} color="#8E8E93" />
           </TouchableOpacity>
         </View>
         <View style={styles.experienceItem}>
@@ -74,8 +77,8 @@ const ProfileScreen = () => {
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Education</Text>
-          <TouchableOpacity>
-            <Ionicons name="create-outline" size={20} color="#8E8E93" />
+          <TouchableOpacity onPress={() => router.push('../add-education')}>
+            <Ionicons name="add" size={28} color="#8E8E93" />
           </TouchableOpacity>
         </View>
         <View style={styles.educationItem}>
@@ -95,7 +98,7 @@ const ProfileScreen = () => {
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Skill</Text>
           <TouchableOpacity>
-            <Ionicons name="create-outline" size={20} color="#8E8E93" />
+            <Ionicons name="add" size={28} color="#8E8E93" />
           </TouchableOpacity>
         </View>
         <View style={styles.skillsContainer}>
@@ -111,8 +114,8 @@ const ProfileScreen = () => {
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Language</Text>
-          <TouchableOpacity>
-            <Ionicons name="create-outline" size={20} color="#8E8E93" />
+          <TouchableOpacity onPress={() => router.push('../add-language')}>
+            <Ionicons name="add" size={28} color="#8E8E93" />
           </TouchableOpacity>
         </View>
         <View style={styles.skillsContainer}>
@@ -125,7 +128,7 @@ const ProfileScreen = () => {
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>CV</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push('../cv')}>
             <Text style={styles.makeCv}>Make a CV +</Text>
           </TouchableOpacity>
         </View>
