@@ -10,7 +10,7 @@ const NotificationScreen = () => {
   const notifications = [];
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.scrollContainer} style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color="white" />
@@ -29,7 +29,7 @@ const NotificationScreen = () => {
           <Text style={styles.noNotificationsBody}>Thank You</Text>
         </View>
       ) : (
-        <ScrollView>
+        <View>
           {notifications.map((notification, index) => (
             <View key={index} style={styles.notificationCard}>
               <View style={styles.notificationHeader}>
@@ -54,9 +54,9 @@ const NotificationScreen = () => {
               </View>
             </View>
           ))}
-        </ScrollView>
+        </View>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -66,6 +66,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#1C1C1E',
     paddingTop: 60,
     paddingHorizontal: 16,
+  },
+  scrollContainer: {
+    flexGrow: 1,
   },
   header: {
     flexDirection: 'row',
@@ -136,6 +139,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingTop: '40%'
   },
   noNotificationsIconContainer: {
     width: 120,

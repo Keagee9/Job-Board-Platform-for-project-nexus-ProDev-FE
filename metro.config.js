@@ -3,8 +3,11 @@ const { getDefaultConfig } = require('expo/metro-config');
 
 const config = getDefaultConfig(__dirname);
 
-// Workaround for a bug in Expo SDK 49 and Firebase JS SDK v9+
-// See: https://github.com/expo/expo/issues/22641
-config.resolver.sourceExts.push("mjs", "cjs");
+// Firebase v9+ uses .mjs and .cjs files.
+config.resolver.sourceExts.push('mjs', 'cjs');
+
+// To support Firebase Auth, we need to override the mainFields to include 'browser' and 'module'
+// in addition to the default 'main'.
+config.resolver.mainFields = ['browser', 'module', 'main'];
 
 module.exports = config;

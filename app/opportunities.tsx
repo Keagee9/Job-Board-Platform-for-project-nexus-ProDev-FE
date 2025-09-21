@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 
 const OpportunitiesScreen = () => {
@@ -8,7 +8,7 @@ const OpportunitiesScreen = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.scrollContainer} style={styles.container}>
       <View style={styles.header}>
         <View style={styles.logoContainer}>
           <View style={styles.logo} />
@@ -46,7 +46,7 @@ const OpportunitiesScreen = () => {
           <Text style={styles.buttonText}>Next →</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -56,6 +56,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#1C1C1E',
     paddingHorizontal: 24,
     paddingTop: 60,
+  },
+  scrollContainer: {
+    flexGrow: 1,
   },
   header: {
     flexDirection: 'row',
@@ -115,6 +118,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     marginBottom: 30,
+    paddingTop: 20,
   },
   button: {
     backgroundColor: '#4A90E2',

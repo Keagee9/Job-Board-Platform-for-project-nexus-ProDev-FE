@@ -11,7 +11,7 @@ const LogoutScreen = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      router.push('/(tabs)/profile');
+      router.push('/login');
     } catch (error) {
       console.error('Logout Error:', error);
     }

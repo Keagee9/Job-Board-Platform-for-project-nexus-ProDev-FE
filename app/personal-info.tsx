@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ScrollView, View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { ScrollView, View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAppContext } from '../context/AppContext';
 
@@ -11,63 +11,69 @@ const PersonalInfoScreen = () => {
   const isFormComplete = appState.fullName && appState.email && appState.phone && appState.location;
 
   return (
-    <ScrollView
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
-      contentContainerStyle={styles.contentContainer}
     >
-      <View style={styles.header}>
-        <View style={styles.logoContainer}>
-          <View style={styles.logo} />
-          <Text style={styles.logoText}>workscout</Text>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.header}>
+          <View style={styles.logoContainer}>
+            <View style={styles.logo} />
+            <Text style={styles.logoText}>workscout</Text>
+          </View>
+          <TouchableOpacity onPress={() => router.push('/(tabs)')}>
+            <Text style={styles.skipText}>Skip →</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={() => router.push('/(tabs)')}>
-          <Text style={styles.skipText}>Skip →</Text>
-        </TouchableOpacity>
-      </View>
 
-      <Text style={styles.title}>Personal Information</Text>
+        <Text style={styles.title}>Personal Information</Text>
 
-      <Text style={styles.label}>Full Name</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Your full name"
-        placeholderTextColor="#8E8E93"
-        value={appState.fullName}
-        onChangeText={(text) => setAppState(prevState => ({ ...prevState, fullName: text }))}
-      />
-
-      <Text style={styles.label}>Email</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Your email address"
-        placeholderTextColor="#8E8E93"
-        value={appState.email}
-        onChangeText={(text) => setAppState(prevState => ({ ...prevState, email: text }))}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-
-      <Text style={styles.label}>Phone Number</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Your phone number"
-        placeholderTextColor="#8E8E93"
-        value={appState.phone}
-        onChangeText={(text) => setAppState(prevState => ({ ...prevState, phone: text }))}
-        keyboardType="phone-pad"
-      />
-
-      <Text style={styles.label}>Location</Text>
-      <View style={styles.locationInputContainer}>
+        <Text style={styles.label}>Full Name</Text>
         <TextInput
-          style={styles.locationInput}
-          placeholder="Your locations"
+          style={styles.input}
+          placeholder="Your full name"
           placeholderTextColor="#8E8E93"
-          value={appState.location}
-          onChangeText={(text) => setAppState(prevState => ({ ...prevState, location: text }))}
+          value={appState.fullName}
+          onChangeText={(text) => setAppState(prevState => ({ ...prevState, fullName: text }))}
         />
-        <Text style={styles.locationIcon}>📍</Text>
-      </View>
+
+        <Text style={styles.label}>Email</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Your email address"
+          placeholderTextColor="#8E8E93"
+          value={appState.email}
+          onChangeText={(text) => setAppState(prevState => ({ ...prevState, email: text }))}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
+
+        <Text style={styles.label}>Phone Number</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Your phone number"
+          placeholderTextColor="#8E8E93"
+          value={appState.phone}
+          onChangeText={(text) => setAppState(prevState => ({ ...prevState, phone: text }))}
+          keyboardType="phone-pad"
+        />
+
+        <Text style={styles.label}>Location</Text>
+        <View style={styles.locationInputContainer}>
+          <TextInput
+            style={styles.locationInput}
+            placeholder="Your locations"
+            placeholderTextColor="#8E8E93"
+            value={appState.location}
+            onChangeText={(text) => setAppState(prevState => ({ ...prevState, location: text }))}
+          />
+          <Text style={styles.locationIcon}>📍</Text>
+        </View>
+      </ScrollView>
 
       <View style={styles.footer}>
         <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
@@ -81,7 +87,7 @@ const PersonalInfoScreen = () => {
           <Text style={styles.nextButtonText}>Next →</Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -90,10 +96,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#1C1C1E',
   },
+  scrollView: {
+    flex: 1,
+  },
   contentContainer: {
     paddingHorizontal: 24,
     paddingTop: 60,
-    paddingBottom: 40,
+    paddingBottom: 20, // Add some padding at the bottom of the scrollable content
   },
   header: {
     flexDirection: 'row',
@@ -163,7 +172,11 @@ const styles = StyleSheet.create({
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 40,
+    paddingHorizontal: 24,
+    paddingVertical: 20,
+    backgroundColor: '#1C1C1E', // Match container background
+    borderTopWidth: 1,
+    borderTopColor: '#2C2C2E',
   },
   backButton: {
     backgroundColor: '#2C2C2E',

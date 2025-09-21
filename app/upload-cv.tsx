@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import * as DocumentPicker from 'expo-document-picker';
 import { useAppContext } from '../context/AppContext';
@@ -21,7 +21,7 @@ const UploadCVScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.logoContainer}>
           <View style={styles.logo} />
@@ -51,7 +51,7 @@ const UploadCVScreen = () => {
       <TouchableOpacity style={styles.getStartedButton} onPress={() => router.push('/(tabs)')}>
         <Text style={styles.getStartedButtonText}>Get Started</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     borderRadius: 8,
     alignItems: 'center',
+    marginBottom: 20,
   },
   getStartedButtonText: {
     color: 'white',

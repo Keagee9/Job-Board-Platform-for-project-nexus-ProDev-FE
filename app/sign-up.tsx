@@ -1,40 +1,48 @@
 
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import { Link, useRouter } from 'expo-router';
 
-const LoginScreen = () => {
+const SignUpScreen = () => {
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
 
-  const handleLogin = () => {
-    // Implement your login logic here
+  const handleSignUp = () => {
+    // Implement your sign-up logic here
+    console.log('Full Name:', fullName);
     console.log('Email:', email);
     console.log('Password:', password);
-    console.log('Remember Me:', rememberMe);
     router.push('/success');
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}>
+    <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.logoContainer}>
           <View style={styles.logo} />
         </View>
-        <Text style={styles.title}>Welcome Back to WorkScout</Text>
+        <Text style={styles.title}>Create Your WorkScout Account</Text>
         <Text style={styles.subtitle}>
-          Log in to your WorkScout account to continue your job search, manage applications, and stay updated with the latest job opportunities.
+          Join WorkScout to find your perfect job. Create an account for personalized matches and career resources.
         </Text>
+
+        <Text style={styles.label}>Full Name</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Please enter your full name"
+          placeholderTextColor="#8E8E93"
+          value={fullName}
+          onChangeText={setFullName}
+          autoCapitalize="words"
+        />
 
         <Text style={styles.label}>Email</Text>
         <TextInput
           style={styles.input}
-          placeholder="Please enter your email address"
+          placeholder="Please enter your email address."
           placeholderTextColor="#8E8E93"
           keyboardType="email-address"
           value={email}
@@ -46,54 +54,45 @@ const LoginScreen = () => {
         <View style={styles.passwordContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Please enter your password"
+            placeholder="Text"
             placeholderTextColor="#8E8E93"
             secureTextEntry={!passwordVisible}
             value={password}
             onChangeText={setPassword}
           />
           <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)} style={styles.eyeIcon}>
-            <Text style={{color: '#8E8E93'}}>{passwordVisible ? '👁️' : '👁️'}</Text>
+            <Text style={{color: '#8E8E93'}}>{passwordVisible ? '👁️' : '🙈'}</Text>
           </TouchableOpacity>
         </View>
         <Text style={styles.passwordInfo}>Password must be at least 8 characters long</Text>
 
-        <View style={styles.optionsContainer}>
-          <TouchableOpacity style={styles.rememberMeContainer} onPress={() => setRememberMe(!rememberMe)}>
-            <View style={[styles.checkbox, rememberMe && styles.checkboxChecked]} />
-            <Text style={styles.rememberMeText}>Remember me</Text>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Text style={styles.forgotPassword}>Forgot Password</Text>
-          </TouchableOpacity>
-        </View>
-
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
+        <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+          <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.googleButton}>
           <Text style={styles.googleIcon}>G</Text>
-          <Text style={styles.googleButtonText}>Login with Google</Text>
+          <Text style={styles.googleButtonText}>Sign Up with Google</Text>
         </TouchableOpacity>
 
-        <Text style={styles.signupText}>
-          Don't have an account? <Link href="/sign-up" style={styles.signupLink}>Sign Up now</Link>
-        </Text>
+        <View style={styles.loginContainer}>
+          <Text style={styles.loginText}>Already have an account? </Text>
+          <Link href="/login" style={styles.loginLink}>Login here</Link>
+        </View>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1C1C1E',
+    backgroundColor: '#121212',
   },
   scrollContainer: {
     flexGrow: 1,
     paddingHorizontal: 24,
-    paddingTop: 80,
+    paddingTop: 60,
     alignItems: 'center',
     paddingBottom: 20,
   },
@@ -108,17 +107,17 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '45deg' }],
   },
   title: {
-    fontSize: 22,
-    fontWeight: '600',
+    fontSize: 24,
+    fontWeight: 'bold',
     color: 'white',
     textAlign: 'center',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 14,
-    color: '#8E8E93',
+    color: '#A9A9A9',
     textAlign: 'center',
-    marginBottom: 40,
+    marginBottom: 30,
     paddingHorizontal: 20,
   },
   label: {
@@ -129,8 +128,10 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
-    backgroundColor: '#2C2C2E',
+    backgroundColor: 'transparent',
     borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#444',
     padding: 16,
     color: 'white',
     fontSize: 16,
@@ -148,45 +149,15 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   passwordInfo: {
-    color: 'gray',
+    color: '#A9A9A9',
     alignSelf: 'flex-start',
     marginBottom: 20,
     fontSize: 12,
   },
-  optionsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    marginBottom: 30,
-  },
-  rememberMeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  checkbox: {
-    width: 20,
-    height: 20,
-    borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#8E8E93',
-    marginRight: 8,
-  },
-  checkboxChecked: {
-    backgroundColor: '#4A90E2',
-    borderColor: '#4A90E2',
-  },
-  rememberMeText: {
-    color: '#8E8E93',
-  },
-  forgotPassword: {
-    color: '#4A90E2',
-    fontWeight: '600',
-  },
   button: {
     width: '100%',
-    backgroundColor: '#4A90E2',
-    padding: 16,
+    backgroundColor: '#3E5A64',
+    padding: 18,
     borderRadius: 8,
     alignItems: 'center',
     marginBottom: 20,
@@ -198,32 +169,39 @@ const styles = StyleSheet.create({
   },
   googleButton: {
     width: '100%',
-    backgroundColor: '#333',
-    padding: 16,
+    padding: 18,
     borderRadius: 8,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
     marginBottom: 40,
+    borderWidth: 1,
+    borderColor: '#444',
   },
   googleIcon: {
       color: 'white',
       marginRight: 10,
       fontWeight: 'bold',
+      fontSize: 20,
   },
   googleButtonText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
   },
-  signupText: {
-    color: 'gray',
+  loginContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  loginText: {
+    color: '#A9A9A9',
     textAlign: 'center',
   },
-  signupLink: {
+  loginLink: {
     color: '#4A90E2',
     fontWeight: 'bold',
+    marginLeft: 5,
   },
 });
 
-export default LoginScreen;
+export default SignUpScreen;

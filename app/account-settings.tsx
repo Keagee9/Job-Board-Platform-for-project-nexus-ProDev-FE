@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Switch } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Switch, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
@@ -10,7 +10,7 @@ const AccountSettingsScreen = () => {
   const [darkMode, setDarkMode] = useState(true);
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="white" />
@@ -48,7 +48,7 @@ const AccountSettingsScreen = () => {
         <Text style={styles.settingText}>Dark Mode</Text>
         <Switch value={darkMode} onValueChange={setDarkMode} trackColor={{false: '#767577', true: '#81b0ff'}} thumbColor={darkMode ? '#f5dd4b' : '#f4f3f4'} />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

@@ -1,5 +1,6 @@
 
 import React, { createContext, useState, useContext, ReactNode } from 'react';
+import { lightTheme, darkTheme } from '../constants/colors';
 
 interface AppState {
   fullName: string;
@@ -15,6 +16,8 @@ interface AppState {
 interface AppContextType {
   appState: AppState;
   setAppState: React.Dispatch<React.SetStateAction<AppState>>;
+  theme: any; // Consider using a more specific type
+  toggleTheme: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -31,8 +34,16 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     portfolio: '',
   });
 
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleTheme = () => {
+    setIsDarkMode(prevMode => !prevMode);
+  };
+
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
   return (
-    <AppContext.Provider value={{ appState, setAppState }}>
+    <AppContext.Provider value={{ appState, setAppState, theme, toggleTheme }}>
       {children}
     </AppContext.Provider>
   );

@@ -32,7 +32,7 @@ const SearchResultsScreen = () => {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.scrollContainer} style={styles.container}>
       <View style={styles.header}>
         <View style={styles.searchContainer}>
           <TextInput
@@ -69,7 +69,7 @@ const SearchResultsScreen = () => {
         <Text style={styles.jobsAvailableText}>20 Jobs Available</Text>
       </View>
       {jobs.length > 0 ? (
-        <ScrollView style={styles.jobsContainer}>
+        <View style={styles.jobsContainer}>
             {jobs.map((job, index) => (
             <View key={index} style={styles.jobCard}>
                 <View style={styles.jobCardHeader}>
@@ -90,13 +90,13 @@ const SearchResultsScreen = () => {
                 </View>
                 <View style={styles.jobCardFooter}>
                     <Text style={styles.postDate}>{job.postDate}</Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => router.push('/details')}>
                         <Text style={styles.viewDetailsText}>View Details</Text>
                     </TouchableOpacity>
                 </View>
             </View>
             ))}
-        </ScrollView>
+        </View>
       ) : (
         <View style={styles.noResultsContainer}>
           <Ionicons name="sad-outline" size={100} color="#8E8E93" />
@@ -104,7 +104,7 @@ const SearchResultsScreen = () => {
           <Text style={styles.noResultsSubtitle}>Sorry, no job available</Text>
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -112,6 +112,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1C1C1E',
+  },
+  scrollContainer: {
+    flexGrow: 1,
   },
   header: {
     paddingHorizontal: 24,
@@ -252,6 +255,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        paddingTop: '30%'
     },
     noResultsTitle: {
         color: 'white',
