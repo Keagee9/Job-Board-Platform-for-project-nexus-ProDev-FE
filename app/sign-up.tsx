@@ -1,7 +1,8 @@
 
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import React, { useState } from 'react';
 import { Link, useRouter } from 'expo-router';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 
 const SignUpScreen = () => {
   const [fullName, setFullName] = useState('');
@@ -19,7 +20,9 @@ const SignUpScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.logoContainer}>
           <View style={styles.logo} />
@@ -61,7 +64,7 @@ const SignUpScreen = () => {
             onChangeText={setPassword}
           />
           <TouchableOpacity onPress={() => setPasswordVisible(!passwordVisible)} style={styles.eyeIcon}>
-            <Text style={{color: '#8E8E93'}}>{passwordVisible ? '👁️' : '🙈'}</Text>
+            <Ionicons name={passwordVisible ? 'eye-off' : 'eye'} size={24} color="#8E8E93" />
           </TouchableOpacity>
         </View>
         <Text style={styles.passwordInfo}>Password must be at least 8 characters long</Text>
@@ -71,7 +74,7 @@ const SignUpScreen = () => {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.googleButton}>
-          <Text style={styles.googleIcon}>G</Text>
+          <AntDesign name="google" size={24} color="white" />
           <Text style={styles.googleButtonText}>Sign Up with Google</Text>
         </TouchableOpacity>
 
@@ -80,7 +83,7 @@ const SignUpScreen = () => {
           <Link href="/login" style={styles.loginLink}>Login here</Link>
         </View>
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -90,7 +93,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#121212',
   },
   scrollContainer: {
-    flexGrow: 1,
     paddingHorizontal: 24,
     paddingTop: 60,
     alignItems: 'center',
@@ -178,16 +180,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#444',
   },
-  googleIcon: {
-      color: 'white',
-      marginRight: 10,
-      fontWeight: 'bold',
-      fontSize: 20,
-  },
   googleButtonText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
+    marginLeft: 10,
   },
   loginContainer: {
     flexDirection: 'row',
