@@ -5,30 +5,34 @@ import { useAppContext } from '../../context/AppContext';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
-const JobCard = ({ job }) => (
-  <View style={styles.jobCard}>
-    <View style={styles.jobCardHeader}>
-      <Image source={job.logo} style={styles.jobCardLogo} />
-      <Text style={styles.jobCardCompany}>{job.company}</Text>
-      <TouchableOpacity>
-        <Ionicons name="bookmark-outline" size={24} color="white" />
-      </TouchableOpacity>
+const JobCard = ({ job }) => {
+  const router = useRouter();
+
+  return (
+    <View style={styles.jobCard}>
+      <View style={styles.jobCardHeader}>
+        <Image source={job.logo} style={styles.jobCardLogo} />
+        <Text style={styles.jobCardCompany}>{job.company}</Text>
+        <TouchableOpacity>
+          <Ionicons name="bookmark-outline" size={24} color="white" />
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.jobCardTitle}>{job.title}</Text>
+      <Text style={styles.jobCardLocation}>{job.location}</Text>
+      <View style={styles.jobCardTags}>
+        <Text style={styles.jobCardTag}>{job.type}</Text>
+        <Text style={styles.jobCardTag}>{job.contract}</Text>
+        <Text style={styles.jobCardTag}>{job.level}</Text>
+      </View>
+      <View style={styles.jobCardFooter}>
+        <Text style={styles.jobCardDate}>{job.date}</Text>
+        <TouchableOpacity onPress={() => router.push('/details')}>
+          <Text style={styles.jobCardDetails}>View Details</Text>
+        </TouchableOpacity>
+      </View>
     </View>
-    <Text style={styles.jobCardTitle}>{job.title}</Text>
-    <Text style={styles.jobCardLocation}>{job.location}</Text>
-    <View style={styles.jobCardTags}>
-      <Text style={styles.jobCardTag}>{job.type}</Text>
-      <Text style={styles.jobCardTag}>{job.contract}</Text>
-      <Text style={styles.jobCardTag}>{job.level}</Text>
-    </View>
-    <View style={styles.jobCardFooter}>
-      <Text style={styles.jobCardDate}>{job.date}</Text>
-      <TouchableOpacity>
-        <Text style={styles.jobCardDetails}>View Details</Text>
-      </TouchableOpacity>
-    </View>
-  </View>
-);
+  );
+};
 
 const SpecializationCard = ({ specialization }) => (
   <View style={styles.specializationCard}>
@@ -104,79 +108,81 @@ const HomeScreen = () => {
   ];
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-      <View style={styles.header}>
-        <View style={styles.userInfo}>
-          <Image
-            source={{ uri: 'https://randomuser.me/api/portraits/women/68.jpg' }}
-            style={styles.avatar}
-          />
-          <View>
-            <Text style={styles.userName}>{appState.fullName ? appState.fullName.split(' ')[0] : 'Nabilla'}</Text>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Text style={styles.userTitle}>{appState.professionalTitle.join(', ') || 'UI/UX Designer'}</Text>
-                <Ionicons name="chevron-down-outline" size={16} color="#8E8E93" />
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
+        <View style={styles.header}>
+          <View style={styles.userInfo}>
+            <Image
+              source={{ uri: 'https://randomuser.me/api/portraits/women/68.jpg' }}
+              style={styles.avatar}
+            />
+            <View>
+              <Text style={styles.userName}>{appState.fullName ? appState.fullName.split(' ')[0] : 'Nabilla'}</Text>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Text style={styles.userTitle}>{appState.professionalTitle.join(', ') || 'UI/UX Designer'}</Text>
+                  <Ionicons name="chevron-down-outline" size={16} color="#8E8E93" />
+              </View>
             </View>
           </View>
+          <TouchableOpacity onPress={() => router.push('./notifications')}>
+            <Ionicons name="notifications-outline" size={24} color="white" />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={() => router.push('./notifications')}>
-          <Ionicons name="notifications-outline" size={24} color="white" />
-        </TouchableOpacity>
-      </View>
 
-      <View style={styles.searchContainer}>
-        <TextInput style={styles.searchInput} placeholder="Search Job" placeholderTextColor="#8E8E93" />
-        <TouchableOpacity onPress={() => router.push('./filter-screen')}>
-          <Ionicons name="search-outline" size={24} color="#8E8E93" />
-        </TouchableOpacity>
-      </View>
+        <View style={styles.searchContainer}>
+          <TextInput style={styles.searchInput} placeholder="Search Job" placeholderTextColor="#8E8E93" />
+          <TouchableOpacity onPress={() => router.push('./filter-screen')}>
+            <Ionicons name="search-outline" size={24} color="#8E8E93" />
+          </TouchableOpacity>
+        </View>
 
-      <View style={styles.filtersContainer}>
-        <Text style={styles.filterText}>Most Relevant</Text>
-        <Ionicons name="location-outline" size={16} color="#8E8E93" />
-        <Text style={styles.filterLocation}>Jakarta, Indonesia</Text>
-      </View>
+        <View style={styles.filtersContainer}>
+          <Text style={styles.filterText}>Most Relevant</Text>
+          <Ionicons name="location-outline" size={16} color="#8E8E93" />
+          <Text style={styles.filterLocation}>Jakarta, Indonesia</Text>
+        </View>
 
-      <View style={styles.promoCard}>
-        <Text style={styles.promoTitle}>10 ways to increase your chances of getting hired</Text>
-        <TouchableOpacity style={styles.promoButton}>
-          <Text style={styles.promoButtonText}>Read a blog</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.promoCard}>
+          <Text style={styles.promoTitle}>10 ways to increase your chances of getting hired</Text>
+          <TouchableOpacity style={styles.promoButton}>
+            <Text style={styles.promoButtonText}>Read a blog</Text>
+          </TouchableOpacity>
+        </View>
 
-      <Text style={styles.curatedJobsTitle}>Curated Jobs For You</Text>
+        <Text style={styles.curatedJobsTitle}>Curated Jobs For You</Text>
 
-      <View style={styles.jobCategories}>
-        <TouchableOpacity style={[styles.jobCategory, styles.jobCategoryActive]}>
-          <Text style={[styles.jobCategoryText, styles.jobCategoryTextActive]}>Design</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.jobCategory}>
-          <Text style={styles.jobCategoryText}>Business</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.jobCategory}>
-          <Text style={styles.jobCategoryText}>Marketing</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.jobCategory}>
-          <Text style={styles.jobCategoryText}>Technology</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.jobCategories}>
+          <TouchableOpacity style={[styles.jobCategory, styles.jobCategoryActive]}>
+            <Text style={[styles.jobCategoryText, styles.jobCategoryTextActive]}>Design</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.jobCategory}>
+            <Text style={styles.jobCategoryText}>Business</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.jobCategory}>
+            <Text style={styles.jobCategoryText}>Marketing</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.jobCategory}>
+            <Text style={styles.jobCategoryText}>Technology</Text>
+          </TouchableOpacity>
+        </View>
 
-      {jobs.map((job, index) => (
-        <JobCard key={index} job={job} />
-      ))}
-
-      <Text style={styles.sectionTitle}>Specialization</Text>
-      <View style={styles.specializationContainer}>
-        {specializations.map((spec, index) => (
-          <SpecializationCard key={index} specialization={spec} />
+        {jobs.map((job, index) => (
+          <JobCard key={index} job={job} />
         ))}
-      </View>
 
-      <Text style={styles.sectionTitle}>Recommendation</Text>
-      {recommendations.map((job, index) => (
-        <JobCard key={index} job={job} />
-      ))}
-    </ScrollView>
+        <Text style={styles.sectionTitle}>Specialization</Text>
+        <View style={styles.specializationContainer}>
+          {specializations.map((spec, index) => (
+            <SpecializationCard key={index} specialization={spec} />
+          ))}
+        </View>
+
+        <Text style={styles.sectionTitle}>Recommendation</Text>
+        {recommendations.map((job, index) => (
+          <JobCard key={index} job={job} />
+        ))}
+      </ScrollView>
+    </View>
   );
 };
 
@@ -186,6 +192,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#1C1C1E',
   },
   contentContainer: {
+    width: '100%',
+    maxWidth: 800,
+    alignSelf: 'center',
     paddingHorizontal: 24,
     paddingTop: 60,
     paddingBottom: 40,

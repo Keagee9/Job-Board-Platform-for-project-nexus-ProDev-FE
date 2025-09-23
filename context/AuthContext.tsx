@@ -1,36 +1,45 @@
 
-import { useRouter } from 'expo-router';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
-import app from '../firebase/firebase';
+import app from '../firebase/firebase'; // Adjust the path as necessary
+
+const auth = getAuth(app);
 
 interface AuthContextType {
-    user: User | null;
-    initialized: boolean;
+  user: User | null;
+  loading: boolean;
 }
 
-const AuthContext = createContext<AuthContextType>({ user: null, initialized: false });
+const AuthContext = createContext<AuthContextType>({
+  user: null,
+  loading: true,
+});
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
 
-export const AuthProvider: React.FC = ({ children }) => {
-    const [user, setUser] = useState<User | null>(null);
-    const [initialized, setInitialized] = useState(false);
-    const auth = getAuth(app);
+interface AuthProviderProps {
+  children: ReactNode;
+}
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setUser(user);
-            if (!initialized) {
-                setInitialized(true);
-            }
-        });
-        return () => unsubscribe();
-    }, []);
+export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
-    return (
-        <AuthContext.Provider value={{ user, initialized }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const value = {
+    user,
+    loading,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

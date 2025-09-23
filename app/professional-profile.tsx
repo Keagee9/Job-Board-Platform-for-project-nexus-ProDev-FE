@@ -4,11 +4,24 @@ import { ScrollView, View, Text, TextInput, StyleSheet, TouchableOpacity, Keyboa
 import { useRouter } from 'expo-router';
 import { useAppContext } from '../context/AppContext';
 
-const PersonalInfoScreen = () => {
+const ProfessionalProfileScreen = () => {
   const router = useRouter();
   const { appState, setAppState } = useAppContext();
 
-  const isFormComplete = appState.fullName && appState.email && appState.phone && appState.location;
+  const isFormComplete = appState.professionalTitle.length > 0;
+
+  const addTitle = () => {
+    setAppState(prevState => ({
+      ...prevState,
+      professionalTitle: [...prevState.professionalTitle, '']
+    }));
+  };
+
+  const updateTitle = (index, text) => {
+    const newTitles = [...appState.professionalTitle];
+    newTitles[index] = text;
+    setAppState(prevState => ({ ...prevState, professionalTitle: newTitles }));
+  };
 
   return (
     <KeyboardAvoidingView
@@ -31,49 +44,24 @@ const PersonalInfoScreen = () => {
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.title}>Personal Information</Text>
+          <Text style={styles.title}>Professional Profile</Text>
 
-          <Text style={styles.label}>Full Name</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Your full name"
-            placeholderTextColor="#8E8E93"
-            value={appState.fullName}
-            onChangeText={(text) => setAppState(prevState => ({ ...prevState, fullName: text }))}
-          />
-
-          <Text style={styles.label}>Email</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Your email address"
-            placeholderTextColor="#8E8E93"
-            value={appState.email}
-            onChangeText={(text) => setAppState(prevState => ({ ...prevState, email: text }))}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-
-          <Text style={styles.label}>Phone Number</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Your phone number"
-            placeholderTextColor="#8E8E93"
-            value={appState.phone}
-            onChangeText={(text) => setAppState(prevState => ({ ...prevState, phone: text }))}
-            keyboardType="phone-pad"
-          />
-
-          <Text style={styles.label}>Location</Text>
-          <View style={styles.locationInputContainer}>
-            <TextInput
-              style={styles.locationInput}
-              placeholder="Your locations"
-              placeholderTextColor="#8E8E93"
-              value={appState.location}
-              onChangeText={(text) => setAppState(prevState => ({ ...prevState, location: text }))}
-            />
-            <Text style={styles.locationIcon}>📍</Text>
-          </View>
+          {appState.professionalTitle.map((title, index) => (
+            <View key={index}>
+              <Text style={styles.label}>Professional Title</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="e.g. UI/UX Designer"
+                placeholderTextColor="#8E8E93"
+                value={title}
+                onChangeText={text => updateTitle(index, text)}
+              />
+            </View>
+          ))}
+          
+          <TouchableOpacity style={styles.addButton} onPress={addTitle}>
+            <Text style={styles.addButtonText}>+ Add another title</Text>
+          </TouchableOpacity>
         </ScrollView>
 
         <View style={styles.footer}>
@@ -82,7 +70,7 @@ const PersonalInfoScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.nextButton, !isFormComplete && styles.nextButtonDisabled]}
-            onPress={() => router.push('/professional-profile')}
+            onPress={() => router.push('/(tabs)')}
             disabled={!isFormComplete}
           >
             <Text style={styles.nextButtonText}>Next →</Text>
@@ -110,7 +98,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: 24,
     paddingTop: 60,
-    paddingBottom: 20, // Add some padding at the bottom of the scrollable content
+    paddingBottom: 20,
   },
   header: {
     flexDirection: 'row',
@@ -159,30 +147,26 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#4A4A4A',
   },
-  locationInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  addButton: {
     backgroundColor: '#2C2C2E',
+    paddingVertical: 18,
     borderRadius: 8,
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: '#4A4A4A',
-    paddingRight: 16,
+    marginBottom: 20,
   },
-  locationInput: {
-    flex: 1,
-    padding: 16,
-    color: 'white',
+  addButtonText: {
+    color: '#4A90E2',
+    fontWeight: 'bold',
     fontSize: 16,
-  },
-  locationIcon: {
-    fontSize: 20,
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 24,
     paddingVertical: 20,
-    backgroundColor: '#1C1C1E', // Match container background
+    backgroundColor: '#1C1C1E',
     borderTopWidth: 1,
     borderTopColor: '#2C2C2E',
   },
@@ -215,4 +199,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PersonalInfoScreen;
+export default ProfessionalProfileScreen;

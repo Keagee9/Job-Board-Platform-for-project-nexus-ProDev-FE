@@ -1,8 +1,11 @@
 
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, ScrollView, Platform, Image } from 'react-native';
-import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, ScrollView, Platform, Image, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { Link, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { getAuth, signInWithCredential, GoogleAuthProvider } from 'firebase/auth';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import app from '../firebase/firebase';
 
 const SignUpScreen = () => {
   const [fullName, setFullName] = useState('');
@@ -10,6 +13,39 @@ const SignUpScreen = () => {
   const [password, setPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: 'YOUR_WEB_CLIENT_ID', // Replace with your web client ID from Firebase/Google Cloud
+    });
+  }, []);
+
+  const handleGoogleSignUp = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      const { idToken } = userInfo;
+      const googleCredential = GoogleAuthProvider.credential(idToken);
+      const auth = getAuth(app);
+      await signInWithCredential(auth, googleCredential);
+      router.push('/success');
+    } catch (error: any) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+        Alert.alert('Cancelled', 'You cancelled the sign-in process.');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+        Alert.alert('In Progress', 'Sign-in is already in progress.');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+        Alert.alert('Play Services Error', 'Google Play Services is not available or outdated.');
+      } else {
+        // some other error happened
+        Alert.alert('Error', 'An unexpected error occurred during sign-in.');
+        console.error(error);
+      }
+    }
+  };
 
   const handleSignUp = () => {
     // Implement your sign-up logic here
@@ -73,7 +109,7 @@ const SignUpScreen = () => {
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.googleButton}>
+        <TouchableOpacity style={styles.googleButton} onPress={handleGoogleSignUp}>
           <Image source={{ uri: 'https://developers.google.com/identity/images/g-logo.png' }} style={styles.googleIcon} />
           <Text style={styles.googleButtonText}>Sign Up with Google</Text>
         </TouchableOpacity>
@@ -90,15 +126,15 @@ const SignUpScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212',
+    backgroundColor: '#1C1C1E',
   },
   scrollContainer: {
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 24,
-    paddingTop: 60, // Add paddingTop
-    paddingBottom: 20, // Add paddingBottom
+    paddingTop: 80,
+    paddingBottom: 40,
   },
   logoContainer: {
     alignItems: 'center',
@@ -173,7 +209,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginBottom: 40,
-    backgroundColor: '#2A2A2A',
+    backgroundColor: 'transparent',
+    borderWidth: 1,
+    borderColor: '#444',
   },
   googleIcon: {
     width: 24,
@@ -184,7 +222,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
-    marginLeft: 10,
   },
   loginContainer: {
     flexDirection: 'row',
