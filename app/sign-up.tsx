@@ -1,8 +1,8 @@
 
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, ScrollView, Platform, Image } from 'react-native';
 import React, { useState } from 'react';
 import { Link, useRouter } from 'expo-router';
-import { Ionicons, AntDesign } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 const SignUpScreen = () => {
   const [fullName, setFullName] = useState('');
@@ -25,7 +25,7 @@ const SignUpScreen = () => {
       style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.logoContainer}>
-          <View style={styles.logo} />
+          <Ionicons name="diamond-outline" size={48} color="white" />
         </View>
         <Text style={styles.title}>Create Your WorkScout Account</Text>
         <Text style={styles.subtitle}>
@@ -74,7 +74,7 @@ const SignUpScreen = () => {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.googleButton}>
-          <AntDesign name="google" size={24} color="white" />
+          <Image source={{ uri: 'https://developers.google.com/identity/images/g-logo.png' }} style={styles.googleIcon} />
           <Text style={styles.googleButtonText}>Sign Up with Google</Text>
         </TouchableOpacity>
 
@@ -93,20 +93,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#121212',
   },
   scrollContainer: {
-    paddingHorizontal: 24,
-    paddingTop: 60,
+    flexGrow: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 20,
+    paddingHorizontal: 24,
+    paddingTop: 60, // Add paddingTop
+    paddingBottom: 20, // Add paddingBottom
   },
   logoContainer: {
     alignItems: 'center',
     marginBottom: 24,
-  },
-  logo: {
-    width: 48,
-    height: 48,
-    backgroundColor: 'white',
-    transform: [{ rotate: '45deg' }],
   },
   title: {
     fontSize: 24,
@@ -177,8 +173,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     marginBottom: 40,
-    borderWidth: 1,
-    borderColor: '#444',
+    backgroundColor: '#2A2A2A',
+  },
+  googleIcon: {
+    width: 24,
+    height: 24,
+    marginRight: 10,
   },
   googleButtonText: {
     color: 'white',

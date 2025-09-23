@@ -1,4 +1,4 @@
-Interactive Job Board Platform
+Interactive WorkScout Job Board Platform
 This project is a hands-on case study to develop a modern, interactive job board platform. The application is built to showcase a responsive, feature-rich interface that integrates with a backend API, manages state effectively, and provides advanced filtering capabilities.
 
 Overview
